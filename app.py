@@ -113,16 +113,19 @@ def main():
     # Unduh model dari Google Drive jika belum ada
     if not os.path.exists(model_path):
         with st.spinner('Mengunduh model...'):
-            download_url = 'https://drive.google.com/file/d/1vFRO7dr3rSpEp0MlyJtguoCfrvXsOUGO/view?usp=sharing'
+            download_url = 'https://drive.google.com/uc?export=download&id=1vFRO7dr3rSpEp0MlyJtguoCfrvXsOUGO'
             download_model(download_url, model_path)
     
-    # Inisialisasi aplikasi
-    try:
-        app = SalmonDiseaseApp(model_path)
-    except Exception as e:
-        st.error(f'Error memuat model: {e}')
-        st.stop()
-    
+    # Verifikasi apakah file sudah ada
+    if os.path.exists(model_path):
+        try:
+            app = SalmonDiseaseApp(model_path)
+        except Exception as e:
+            st.error(f'Error memuat model: {e}')
+            st.stop()
+    else:
+        st.error('Gagal mengunduh model. Silakan periksa URL unduhan.')
+
     # Kolom untuk upload dan preview
     col1, col2 = st.columns([2, 1])
 
