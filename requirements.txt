@@ -7,4 +7,3 @@ tensorflow
 pillow
 matplotlib
 seaborn
-requests
