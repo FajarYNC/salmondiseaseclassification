@@ -1,0 +1,15 @@
+# Ignore virtual environment folder
+.venv/
+
+# Ignore temporary files
+temp/
+
+# Ignore model files if not needed
+salmon_disease_model.keras/
+
+# Ignore image files if not needed
+*.png
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
