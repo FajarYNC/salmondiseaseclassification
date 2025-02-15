@@ -9,6 +9,7 @@ import requests
 # Fungsi untuk mengunduh model dari Google Drive
 def download_model(url, output_path):
     response = requests.get(url)
+    response.raise_for_status()  # Raise an error on a bad response
     with open(output_path, 'wb') as f:
         f.write(response.content)
 
@@ -114,7 +115,12 @@ def main():
     if not os.path.exists(model_path):
         with st.spinner('Mengunduh model...'):
             download_url = 'https://drive.google.com/uc?export=download&id=1vFRO7dr3rSpEp0MlyJtguoCfrvXsOUGO'
-            download_model(download_url, model_path)
+            try:
+                download_model(download_url, model_path)
+                st.success('Model berhasil diunduh.')
+            except requests.exceptions.RequestException as e:
+                st.error(f'Gagal mengunduh model: {e}')
+                st.stop()
     
     # Verifikasi apakah file sudah ada
     if os.path.exists(model_path):
