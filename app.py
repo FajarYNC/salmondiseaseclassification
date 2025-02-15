@@ -4,6 +4,13 @@ import numpy as np
 import cv2
 import os
 import matplotlib.pyplot as plt
+import requests
+
+# Fungsi untuk mengunduh model dari Google Drive
+def download_model(url, output_path):
+    response = requests.get(url)
+    with open(output_path, 'wb') as f:
+        f.write(response.content)
 
 class SalmonDiseaseApp:
     def __init__(self, model_path):
@@ -102,6 +109,12 @@ def main():
     
     # Model path
     model_path = 'salmon_disease_model.keras'
+    
+    # Unduh model dari Google Drive jika belum ada
+    if not os.path.exists(model_path):
+        with st.spinner('Mengunduh model...'):
+            download_url = 'https://drive.google.com/file/d/1vFRO7dr3rSpEp0MlyJtguoCfrvXsOUGO/view?usp=sharing'
+            download_model(download_url, model_path)
     
     # Inisialisasi aplikasi
     try:
