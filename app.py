@@ -12,6 +12,11 @@ def download_model(url, output_path):
     response.raise_for_status()  # Raise an error on a bad response
     with open(output_path, 'wb') as f:
         f.write(response.content)
+    # Verifikasi file yang diunduh
+    if os.path.exists(output_path) and output_path.endswith('.keras'):
+        st.write(f'File {output_path} telah diunduh dan disimpan dengan benar.')
+    else:
+        st.error('File yang diunduh tidak berformat .keras atau tidak ada.')
 
 class SalmonDiseaseApp:
     def __init__(self, model_path):
@@ -125,6 +130,7 @@ def main():
     # Verifikasi apakah file sudah ada
     if os.path.exists(model_path):
         try:
+            st.write(f'Memuat model dari {model_path}')
             app = SalmonDiseaseApp(model_path)
         except Exception as e:
             st.error(f'Error memuat model: {e}')
